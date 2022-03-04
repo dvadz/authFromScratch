@@ -7,6 +7,9 @@ const app = express();
 
 mongoose.connect("mongodb://localhost:27017/myAuthFromScratch");
 
+app.set("view engine", "ejs");
+app.set("views", "views");
+
 app.get("/", (req, res) => {
   res.send("HOME");
 });
