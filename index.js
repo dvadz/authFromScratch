@@ -19,6 +19,10 @@ app.get("/register", (req, res) => {
   res.render("register");
 });
 
+app.post("/register", (req, res) => {
+  res.send(req.body);
+});
+
 app.listen(PORT, () => {
   console.log(`App is running on port ${PORT}`);
 });
