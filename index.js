@@ -11,6 +11,10 @@ app.get("/", (req, res) => {
   res.send("HOME");
 });
 
+app.get("/register", (req, res) => {
+  res.send("");
+});
+
 app.listen(PORT, () => {
   console.log(`App is running on port ${PORT}`);
 });
