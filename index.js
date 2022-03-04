@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const User = require("./models/user");
 const ejs = require("ejs");
+const bcrypt = require("bcrypt");
 const PORT = process.env.PORT || 3000;
 const app = express();
 
@@ -19,7 +20,11 @@ app.get("/register", (req, res) => {
   res.render("register");
 });
 
-app.post("/register", (req, res) => {
+app.post("/register", async (req, res) => {
+  const { username, password } = req.body;
+  const hash = await bcrypt.hash(password, 12);
+  console.log(hash);
+  res.send({ hash });
   res.send(req.body);
 });
 
