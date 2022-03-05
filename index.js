@@ -40,7 +40,7 @@ app.post("/login", async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username });
   if (user) {
-    const compare = await bcrypt.compare(password, user.passordHash);
+    const compare = await bcrypt.compare(password, user.passwordHash);
     if (compare) {
       res.send("Login successful!");
     } else {
