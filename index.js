@@ -58,7 +58,7 @@ app.get("/register", (req, res) => {
 app.post("/register", async (req, res) => {
   const { username, password } = req.body;
   const hash = await bcrypt.hash(password, 12);
-  const user = new User({ username, passordHash: hash });
+  const user = new User({ username, passwordHash: hash });
   await user.save();
   req.session.username = username;
   res.redirect("/secret");
