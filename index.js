@@ -25,6 +25,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/secret", (req, res) => {
+  console.log(req.session);
   if (req.session.user_id) {
     res.send("This is top secret information. Santa Claus is not real. His real name is Nick.");
   } else {
@@ -42,6 +43,7 @@ app.post("/login", async (req, res) => {
   if (user) {
     const compare = await bcrypt.compare(password, user.passwordHash);
     if (compare) {
+      req.session.user_id = user._id;
       res.send("Login successful!");
     } else {
       res.send("Username or Password is invalid!");
