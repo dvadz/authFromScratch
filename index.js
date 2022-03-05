@@ -28,7 +28,7 @@ app.get("/", (req, res) => {
 app.get("/secret", (req, res) => {
   console.log(req.session);
   if (req.session.user_id) {
-    res.send("This is top secret information. Santa Claus is not real. His real name is Nick.");
+    res.render("secret");
   } else {
     res.send("This is top secret information. Please login to gain access!");
   }
@@ -69,7 +69,7 @@ app.post("/register", async (req, res) => {
 
 app.post("/logout", (req, res) => {
   req.session.user_id = null;
-  redirect("/login");
+  res.redirect("/login");
 });
 
 app.listen(PORT, () => {
