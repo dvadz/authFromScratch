@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/secret", (req, res) => {
-  if (req.session.username) {
+  if (req.session.user_id) {
     res.send("This is top secret information. Santa Claus is not real. His real name is Nick.");
   } else {
     res.send("This is top secret information. Please login to gain access!");
@@ -60,7 +60,7 @@ app.post("/register", async (req, res) => {
   const hash = await bcrypt.hash(password, 12);
   const user = new User({ username, passwordHash: hash });
   await user.save();
-  req.session.username = username;
+  req.session.user_id = user._id;
   res.redirect("/secret");
 });
 
