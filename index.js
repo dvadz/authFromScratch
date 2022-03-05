@@ -4,6 +4,7 @@ const User = require("./models/user");
 const ejs = require("ejs");
 const bcrypt = require("bcrypt");
 const session = require("express-session");
+const { redirect } = require("express/lib/response");
 const PORT = process.env.PORT || 3000;
 const app = express();
 
@@ -64,6 +65,11 @@ app.post("/register", async (req, res) => {
   await user.save();
   req.session.user_id = user._id;
   res.redirect("/secret");
+});
+
+app.post("/logout", (req, res) => {
+  req.session.user_id = null;
+  redirect("/login");
 });
 
 app.listen(PORT, () => {
