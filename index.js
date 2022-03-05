@@ -35,6 +35,10 @@ app.get("/", (req, res) => {
   res.send("HOME");
 });
 
+app.get("/settings", requireLogin, (req, res) => {
+  res.send("You are in SETTINGS! ");
+});
+
 app.get("/secret", requireLogin, (req, res) => {
   res.render("secret");
 });
