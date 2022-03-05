@@ -24,8 +24,9 @@ app.post("/register", async (req, res) => {
   const { username, password } = req.body;
   const hash = await bcrypt.hash(password, 12);
   console.log(hash);
-  res.send({ hash });
-  res.send(req.body);
+  const user = new User({ username, passordHash: hash });
+  await user.save();
+  res.send({ username, hash });
 });
 
 app.listen(PORT, () => {
