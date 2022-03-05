@@ -25,7 +25,11 @@ app.get("/", (req, res) => {
 });
 
 app.get("/secret", (req, res) => {
-  res.send("This is top secret information. Santa Claus is not real. His real name is Nick.");
+  if (req.session.username) {
+    res.send("This is top secret information. Santa Claus is not real. His real name is Nick.");
+  } else {
+    res.send("This is top secret information. Please login to gain access!");
+  }
 });
 
 app.get("/register", (req, res) => {
@@ -35,7 +39,6 @@ app.get("/register", (req, res) => {
 app.post("/register", async (req, res) => {
   const { username, password } = req.body;
   const hash = await bcrypt.hash(password, 12);
-  console.log(hash);
   const user = new User({ username, passordHash: hash });
   await user.save();
   req.session.username = username;
