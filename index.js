@@ -5,6 +5,7 @@ const ejs = require("ejs");
 const bcrypt = require("bcrypt");
 const session = require("express-session");
 const { redirect } = require("express/lib/response");
+const req = require("express/lib/request");
 const PORT = process.env.PORT || 3000;
 const app = express();
 
@@ -21,17 +22,21 @@ app.use(
     cookie: { maxAge: 1000 * 60 * 15 },
   })
 );
+
+const requireLogin = (req, res, next) => {
+  if (req.session.user_id) {
+    next();
+  } else {
+    res.redirect("/login");
+  }
+};
+
 app.get("/", (req, res) => {
   res.send("HOME");
 });
 
-app.get("/secret", (req, res) => {
-  console.log(req.session);
-  if (req.session.user_id) {
-    res.render("secret");
-  } else {
-    res.send("This is top secret information. Please login to gain access!");
-  }
+app.get("/secret", requireLogin, (req, res) => {
+  res.render("secret");
 });
 
 app.get("/login", (req, res) => {
