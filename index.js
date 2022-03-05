@@ -36,8 +36,19 @@ app.get("/login", (req, res) => {
   res.render("login");
 });
 
-app.post("/login", (req, res) => {
-  res.send(req.body);
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+  const user = await User.findOne({ username });
+  if (user) {
+    const compare = await bcrypt.compare(password, user.passordHash);
+    if (compare) {
+      res.send("Login successful!");
+    } else {
+      res.send("Username or Password is invalid!");
+    }
+  } else {
+    res.send("Username or Password is invalid!");
+  }
 });
 
 app.get("/register", (req, res) => {
