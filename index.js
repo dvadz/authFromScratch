@@ -36,6 +36,10 @@ app.get("/login", (req, res) => {
   res.render("login");
 });
 
+app.post("/login", (req, res) => {
+  res.send(req.body);
+});
+
 app.get("/register", (req, res) => {
   res.render("register");
 });
