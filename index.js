@@ -16,6 +16,10 @@ app.get("/", (req, res) => {
   res.send("HOME");
 });
 
+app.get("/secret", (req, res) => {
+  res.send("This is top secret information. Santa Claus is not real. His real name is Nick.");
+});
+
 app.get("/register", (req, res) => {
   res.render("register");
 });
@@ -26,7 +30,7 @@ app.post("/register", async (req, res) => {
   console.log(hash);
   const user = new User({ username, passordHash: hash });
   await user.save();
-  res.send({ username, hash });
+  res.redirect("/secret");
 });
 
 app.listen(PORT, () => {
