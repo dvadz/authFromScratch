@@ -16,7 +16,7 @@ app.use(
   session({
     secret: "thePathToEnlightenmentIsThroughDarkness",
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: { maxAge: 1000 * 60 * 15 },
   })
 );
