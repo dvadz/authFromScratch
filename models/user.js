@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
     required: "Username is required",
   },
-  passwordHash: {
+  password: {
     type: String,
     required: "Password is required",
   },
@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
 userSchema.statics.validateUser = async function (username, password) {
   const foundUser = await this.findOne({ username });
   if (foundUser) {
-    const isValid = await bcrypt.compare(password, foundUser.passwordHash);
+    const isValid = await bcrypt.compare(password, foundUser.password);
     return isValid ? foundUser : false;
   } else {
     return false;
@@ -24,7 +24,7 @@ userSchema.statics.validateUser = async function (username, password) {
 };
 
 userSchema.pre("save", async function (next) {
-  this.passwordHash = await bcrypt.hash(this.passwordHash, 12);
+  this.password = await bcrypt.hash(this.password, 12);
   next();
 });
 

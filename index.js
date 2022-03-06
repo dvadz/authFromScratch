@@ -68,8 +68,7 @@ app.get("/register", (req, res) => {
 
 app.post("/register", async (req, res) => {
   const { username, password } = req.body;
-  const passwordHash = password;
-  const user = new User({ username, passwordHash });
+  const user = new User({ username, password });
   await user.save();
   if (user) {
     req.session.user_id = user._id;
