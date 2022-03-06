@@ -52,17 +52,13 @@ app.get("/login", (req, res) => {
 
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
-  const user = await User.findOne({ username });
-  if (user) {
-    const compare = await bcrypt.compare(password, user.passwordHash);
-    if (compare) {
-      req.session.user_id = user._id;
-      res.redirect("/secret");
-    } else {
-      res.send("Username or Password is invalid!");
-    }
+
+  const foundUser = await User.validateUser(username, password);
+  if (foundUser) {
+    req.session.user_id = foundUser._id;
+    res.redirect("/secret");
   } else {
-    res.send("Username or Password is invalid!");
+    res.redirect("/login");
   }
 });
 
