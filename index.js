@@ -1,11 +1,13 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const User = require("./models/user");
+const logger = require("morgan");
 const ejs = require("ejs");
 const bcrypt = require("bcrypt");
 const session = require("express-session");
 const { redirect } = require("express/lib/response");
 const req = require("express/lib/request");
+const morgan = require("morgan");
 const PORT = process.env.PORT || 3000;
 const app = express();
 
@@ -22,6 +24,7 @@ app.use(
     cookie: { maxAge: 1000 * 60 * 15 },
   })
 );
+app.use(morgan("dev"));
 
 const requireLogin = (req, res, next) => {
   if (req.session.user_id) {
