@@ -23,6 +23,11 @@ userSchema.statics.validateUser = async function (username, password) {
   }
 };
 
+userSchema.pre("save", async function (next) {
+  this.passwordHash = await bcrypt.hash(this.passwordHash, 12);
+  next();
+});
+
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
